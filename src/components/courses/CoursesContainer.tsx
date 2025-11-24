@@ -10,6 +10,7 @@ import {
 import { StarIcon } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Course {
   id: number;
@@ -29,7 +30,7 @@ const CourseCard = ({ course }: { course: Course }) => {
       <Card className="py-4">
         <CardContent className="px-3">
           <div className="aspect-square rounded-md bg-gray-100 mb-2">
-            <Image
+            <img
               src={imageUrl}
               className="w-full h-full object-cover object-center"
               alt={`Product image ${id}`}
@@ -55,9 +56,11 @@ const CourseCard = ({ course }: { course: Course }) => {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-bold">$199</span>
-            <Button size="sm" className="text-xs px-3 py-1 h-7">
-              Buy
-            </Button>
+            <Link href={`/dashboard/courses/${id}`}>
+              <Button size="sm" className="text-xs px-3 py-1 h-7">
+                Open
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
@@ -84,7 +87,7 @@ export default function CoursesContainer() {
     fetchCourses();
   }, []);
   return (
-    <div className="w-full p-6 flex items-stretch flex-wrap">
+    <div className="w-full px-4 flex items-stretch flex-wrap">
       {courses.length > 0
         ? courses.map((course, idx) => (
             <CourseCard key={course.id || idx} course={course} />
