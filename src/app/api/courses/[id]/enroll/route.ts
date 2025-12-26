@@ -20,12 +20,17 @@ export async function POST(request: Request) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const uploadRes: any = await new Promise((resolve, reject) => {
+      const uploadRes: { secure_url: string } = await new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           { folder: "lms_courses" },
           (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
+            if (error) {
+              reject(error);
+            } else if (result) {
+              resolve(result);
+            } else {
+              reject(new Error("Cloudinary upload failed"));
+            }
           }
         );
         stream.end(buffer);
@@ -39,6 +44,11 @@ export async function POST(request: Request) {
         title,
         content: content || "",
         imageUrl, // ✅ save uploaded image
+        instructor: {
+          connect: {
+            id: 1, // TODO: get instructor id from session
+          },
+        },
       },
     });
 

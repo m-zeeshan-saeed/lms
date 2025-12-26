@@ -19,6 +19,7 @@ The application is structured as a standard Next.js project with the following k
 
 - `src/app`: Contains the application's pages and layouts.
 - `src/components`: Contains reusable React components.
+- `src/components/admin`: Contains components specific to the admin dashboard.
 - `src/lib`: Contains utility functions and Prisma client.
 - `prisma`: Contains the database schema and migrations.
 
